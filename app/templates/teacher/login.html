@@ -1,0 +1,64 @@
+{% extends "common/index_for_login.html" %}
+{% block block_title %}login{% endblock %}
+
+{% block block_link %}
+    <link href="{{ url_for('static',filename="student/css/font-awesome.min.css") }}" rel="stylesheet" type="text/css">
+    <link href="{{ url_for('static',filename="student/css/bootstrap.min.css") }}" rel="stylesheet" type="text/css">
+    <link href="{{ url_for('static',filename="student/css/bootstrap-theme.min.css") }}" rel="stylesheet" type="text/css">
+    <link href="{{ url_for('static',filename="student/css/templatemo_style.css") }}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block block_body_h1 %}
+        <h1 class="margin-bottom-15">登录--Teacher</h1>
+{% endblock %}
+
+
+{% block block_body_inner_container %}
+        <form class="form-horizontal templatemo-container templatemo-login-form-1 margin-bottom-30" role="form"
+              method="post" action="/teacher/login/">
+            <div class="form-group">
+                <div class="col-xs-12">
+                    <div class="control-wrapper">
+                        <label for="username" class="control-label fa-label"><i class="fa fa-user fa-medium"></i></label>
+                        用户名：{{ form.username }}
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-12">
+                    <div class="control-wrapper">
+                        <label for="password" class="control-label fa-label"><i class="fa fa-lock fa-medium"></i></label>
+                        密&nbsp;&nbsp;码：{{ form.password }}
+                    </div>
+                </div>
+            </div>
+
+            {% if error_message %}
+                <p class="login-box-msg" style="color:red;">{{ error_message }}</p>
+            {% endif %}
+
+
+            <div class="form-group">
+                <div class="col-md-12">
+                    <div class="checkbox control-wrapper">
+                        <label>
+                            <input type="checkbox"> 记住我
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-12">
+                    <div class="control-wrapper">
+                        {{ form.submit }}
+                        <a href="#" class="text-right pull-right">忘记密码?</a>
+                    </div>
+                </div>
+            </div>
+            <hr>
+        </form>
+        <div class="text-center">
+            <a href="{{ url_for('teacher.register') }}" class="templatemo-create-new"> 新用户注册 <i
+                    class="fa fa-arrow-circle-o-right"></i></a>
+        </div>
+{% endblock %}

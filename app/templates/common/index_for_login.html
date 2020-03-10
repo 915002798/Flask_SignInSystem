@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<head>
+	<title>{% block block_title %}{% endblock %}</title>
+	<meta name="keywords" content="" />
+	<meta name="description" content="" />
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    {% block block_link %}
+    {% endblock %}
+</head>
+<body class="templatemo-bg-gray">
+<div class="container">
+    <div class="col-md-12">
+	<h1 class="margin-bottom-15">{% block block_body_h1 %}{% endblock %}</h1>
+
+        {% for msg in get_flashed_messages(category_filter=["err"]) %}
+            <p class="login-box-msg" style="color:red;">{{ msg }}</p>
+        {% endfor %}
+{#        {% for msg in get_flashed_messages(category_filter=["ok"]) %}#}
+{#            <p class="login-box-msg" style="color:green;">{{ msg }}</p>#}
+{#        {% endfor %}#}
+
+		{% block block_body_inner_container %}
+        {% endblock %}
+	</div>
+</div>
+ <hr>
+<div style="background-color:#afd9ee;width:100%;height:auto;position:absolute;bottom:0;text-align:center">
+    <p>版权所有：© by.@zwm 网站许可.备案信息...</p>
+</div>
+</body>
+</html>

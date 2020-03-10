@@ -1,0 +1,263 @@
+{# 导入分页宏 #}
+{% import "page.html" as pg %}
+
+<!doctype html>
+<html class="no-js">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>sign table</title>
+    <meta name="description" content="这是一个 签到table 页面">
+    <meta name="keywords" content="table">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="renderer" content="webkit">
+    {#  <meta http-equiv="Cache-Control" content="no-siteapp" />#}
+    <link rel="icon" type="image/png" href="{{ url_for('static',filename="student/assets/i/favicon.png") }}">
+    <link rel="apple-touch-icon-precomposed"
+          href="{{ url_for('static',filename="student/assets/i/app-icon72x72@2x.png") }}">
+    <meta name="apple-mobile-web-app-title" content="Amaze UI"/>
+    <link rel="stylesheet" href="{{ url_for('static',filename="student/assets/css/amazeui.min.css") }}"/>
+    <link rel="stylesheet" href="{{ url_for('static',filename="student/assets/css/admin.css") }}">
+</head>
+<body>
+
+<header class="am-topbar admin-header">
+    <div class="am-topbar-brand">
+        <strong>签到</strong>
+        <small>sign</small>
+    </div>
+
+    <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only"
+            data-am-collapse="{target: '#topbar-collapse'}"><span class="am-sr-only">导航切换</span> <span
+            class="am-icon-bars"></span></button>
+
+    <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
+
+        <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list">
+            <li class="am-dropdown" data-am-dropdown>
+                <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
+                    <span class="am-icon-users"></span> {{ session.get("username") }} <span
+                        class="am-icon-caret-down"></span>
+                </a>
+                <ul class="am-dropdown-content">
+                    <li><a href="#"><span class="am-icon-user"></span> 资料</a></li>
+                    <li><a href="#"><span class="am-icon-cog"></span> 设置</a></li>
+                    <li><a href="{{ url_for('student.logout') }}"><span class="am-icon-power-off"></span> 退出</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</header>
+
+<div class="am-cf admin-main">
+    <!-- 边注栏开始 -->
+    <div class="admin-sidebar">
+        <ul class="am-list admin-sidebar-list">
+            <li><a href=""><span class="am-icon-home"></span> 首页</a></li>
+            <li><a href="" class="am-cf"><span class="am-icon-check"></span> 个人资料<span
+                    class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
+            <li><a href="{{ url_for('student.logout') }}"><span class="am-icon-sign-out"></span> 注销</a></li>
+
+        </ul>
+
+        <div class="am-panel am-panel-default admin-sidebar-panel">
+            <div class="am-panel-bd">
+                <p><span class="am-icon-bookmark"></span> 心語 </p>
+                <p>時光靜好，與君語；細水流年，與君同。</p>
+            </div>
+        </div>
+
+        <div class="am-panel am-panel-default admin-sidebar-panel">
+            <div class="am-panel-bd">
+                <p><span class="am-icon-tag"></span> 加油吧，少年！ </p>
+                <p>每一個讓你難堪的現在</p>
+                <p>都有一個不夠努力的曾經</p>
+            </div>
+        </div>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+
+    </div>
+    <!-- 边注栏结束 -->
+
+    <!-- 内容开始 -->
+    <div class="admin-content">
+
+        <div class="am-cf am-padding">
+            <div class="am-fl am-cf">
+                <strong class="am-text-primary am-text-lg">签到</strong> /
+                <small>sign</small>
+            </div>
+        </div>
+
+        <div class="am-g">
+            <div class="am-u-md-6 am-cf">
+                <div class="am-fl am-cf">
+                    <div class="am-btn-toolbar am-fl">
+                    </div>
+                </div>
+            </div>
+            <div class="am-u-md-3 am-cf">
+                <div class="am-fr">
+                </div>
+            </div>
+        </div>
+
+        <div class="am-g">
+            <div class="am-u-sm-12">
+                {# *** 表单开始 ** #}
+                <form class="am-form" method="post" action="/sign/">
+
+                    <table class="am-table am-table-striped am-table-hover table-main">
+                        <thead>
+                        <tr>
+                            <th class="table-id">学号</th>
+                            <th class="table-name">姓名</th>
+                            <th class="table-cls">班级</th>
+                            <th class="table-date">日期</th>
+                            <th class="table-unit">章节</th>
+                            <th class="table-v_num">视频号</th>
+                            <th class="table-code_num">代码（行）</th>
+                            <th class="table-set">操作</th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        <tr>
+                            <td>{{ user.id }}</td>
+                            <td>{{ user.name }}</td>
+                            <td>{{ user.cls.name }}</td>
+
+
+                                {% if sign and sign[0].datetime.date().strftime("%Y-%m-%d")==datetime[:10] %}
+
+                                    <td>{{ sign[0].datetime }}</td>
+                                    <td>{{ sign[0].unit }}</td>
+                                    <td>{{ sign[0].v_num }}</td>
+                                    <td>{{ sign[0].code_num }}</td>
+                                    <td>
+                                    <div class="am-btn-toolbar">
+                                        <div class="am-btn-group am-btn-group-xs">已签到</div>
+                                    </div>
+                                    </td>
+                                {% else %}
+                                    <td>{{ datetime }}</td>
+                                    <td class="form_td_sign">{{ form.unit }}</td>
+                                    <td class="form_td_sign">{{ form.v_num }}</td>
+                                    <td class="form_td_sign">{{ form.code_num }}</td>
+                                    <td>
+                                    <div class="am-btn-toolbar">
+                                        <div class="am-btn-group am-btn-group-xs">
+                                            <input type="submit"
+                                                   class="am-btn am-btn-default am-btn-xs am-text-secondary" value="签到"
+                                                   onclick="">
+                                        </div>
+                                    </div>
+                                    </td>
+                                {% endif %}
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <table class="am-table am-table-striped am-table-hover table-main">
+                        <h4>历史签到</h4>
+                        <thead>
+                        <tr>
+                            <th class="table-id">编号</th>
+                            <th class="table-id">学号</th>
+                            <th class="table-name">姓名</th>
+                            <th class="table-cls">班级</th>
+                            <th class="table-date">日期</th>
+                            <th class="table-unit">章节</th>
+                            <th class="table-v_num">视频号</th>
+                            <th class="table-code_num">代码（行）</th>
+                            <th class="table-set">操作</th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        {% if sign %}
+                            {% for i in pager.items %}
+                                <tr>
+                                    <td>{{ loop.index }}</td>
+                                    <td>{{ i.sid }}</td>
+                                    <td>{{ user.name }}</td>
+                                    <td>{{ user.cls.name }}</td>
+                                    <td>{{ i.datetime }}</td>
+                                    <td>{{ i.unit }}</td>
+                                    <td>{{ i.v_num }}</td>
+                                    <td>{{ i.code_num }}</td>
+                                    <td>
+                                        <div class="am-btn-toolbar">
+                                            <div class="am-btn-group am-btn-group-xs">已签到</div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        {% endif %}
+
+                        </tbody>
+                    </table>
+                    <div class="am-cf">
+                        共  {{ sign_count }}  条记录,当前第  {{ pager.page }}  页
+                        <div class="am-fr">
+                            {{ pg.pager(pager, 'student.sign') }}
+                        </div>
+                    </div>
+                    <hr/>
+
+
+                </form>
+                {# ** 表单结束 ** #}
+            </div>
+
+        </div>
+    </div>
+    <!-- 内容结束 -->
+</div>
+
+<!-- 页面底部 -->
+<footer>
+    <hr>
+    <p class="am-padding-left">© by.@zwm 网站许可.</p>
+</footer>
+
+<!--[if (gte IE 9)|!(IE)]><!-->
+<script src="{{ url_for('static',filename="student/assets/js/jquery.min.js") }}"></script>
+<script src="{{ url_for('static',filename="student/assets/js/amazeui.min.js") }}"></script>
+<!--<![endif]-->
+<script src="{{ url_for('static',filename="student/assets/js/app.js") }}"></script>
+
+{#    新增样式#}
+<script src="{{ url_for('static',filename="student/js/jquery-1.11.1.min.js") }}"></script>
+<script>
+        {#function sign() {#}
+        {#    var form_td_sign= document.getElementsByClassName('form-control');#}
+        {##}
+        {#    for (var i = 0; i < form_td_sign.length; i++) {#}
+        {#        if (!trim(form_td_sign[i].value)) {#}
+        {#            form_td_sign[i].focus();#}
+        {#            alert('签到失败！请检查信息是否填写正确！');#}
+        {#            return false;#}
+        {#        }#}
+        {#    }#}
+        {#    alert('签到成功！');#}
+        {#    return true;#}
+
+</script>
+{#    新增样式结束#}
+</body>
+</html>

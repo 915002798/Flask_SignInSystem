@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>register</title>
+    <meta name="keywords" content=""/>
+    <meta name="description" content=""/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="{{ url_for('static',filename="student/css/bootstrap.min.css") }}" rel="stylesheet" type="text/css">
+    <link href="{{ url_for('static',filename="student/css/bootstrap-theme.min.css") }}" rel="stylesheet"
+          type="text/css">
+    <link href="{{ url_for('static',filename="student/css/templatemo_style.css") }}" rel="stylesheet" type="text/css">
+
+</head>
+<body class="templatemo-bg-gray">
+<h1 class="margin-bottom-15">新用户注册</h1>
+<div class="container">
+    <div class="col-md-12">
+
+        <form class="form-horizontal templatemo-create-account templatemo-container" role="form" action="/register/"
+              method="post">
+            {{ form.csrf_token }}
+            <div class="form-inner">
+
+                <div class="form-group">
+                    <div class="col-md-6">
+                        <label for="username" class="control-label">用户名:</label>
+                        {#                         <input type="text" name="username" class="form-control" id="username" placeholder="">#}
+                        {{ form.username }}
+                    </div>
+                    <div class="col-md-6 templatemo-radio-group">
+                        <label class="radio-inline">
+                            <input type="radio" name="sex" id="optionsRadios1" value="0"> 男
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="sex" id="optionsRadios2" value="1"> 女
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-6">
+                        <label for="password" class="control-label">密&nbsp;&nbsp;码:</label>
+                        {#                         <input type="password" name="pwd" class="form-control" id="password" placeholder="">#}
+                        {{ form.pwd }}
+                    </div>
+                    <div class="col-md-6">
+                        <label for="password_confirm" class="control-label">确认密码:</label>
+                        {#                         <input type="password" name="repwd" class="form-control" id="password_confirm" placeholder="">#}
+                        {{ form.repwd }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <label for="email" class="control-label">Email:</label>
+                        {#                         <input type="email" name="email" class="form-control" id="email" placeholder="">#}
+                        {{ form.email }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-6">
+                        <label for="name" class="control-label">姓名:</label>
+                        {#                         <input type="text" name="name" class="form-control" id="name" placeholder="">#}
+                        {{ form.name }}
+                    </div>
+                    <div class="col-md-6">
+                        <label for="phone" class="control-label">手机号码:</label>
+                        {# <input type="text" name="phone" class="form-control" id="phone" placeholder="">#}
+                        {{ form.phone }}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-6">
+                        <label for="sid" class="control-label">学&nbsp;&nbsp;号:</label>
+                        {#                      <input type="text" name="sid" class="form-control" id="sid" placeholder="">#}
+                        {{ form.sid }}
+                    </div>
+                    <div class="col-md-6">
+                        <label for="cls" class="control-label">班&nbsp;&nbsp;级:</label>
+{#                        <select name="cls" class="form-control" id="cls">#}
+{#                            {% for cls in classes %}#}
+{#                                <option value="{{ cls.id }}">{{ cls.name }}</option>#}
+{#                            {% endfor %}#}
+{#                        </select>#}
+                        {{ form.cls.label }}
+                        {{ form.cls }}
+
+                    </div>
+                </div>
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        <label for="birthday" class="control-label">生&nbsp;&nbsp;日:</label>
+{#                                        <input type="date" name="birthday" class="form-control" id="birthday" placeholder="">#}
+                                            {{ form.birthday}}
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="date_in" class="control-label">入学时间:</label>
+{#                                        <input type="date" name="date_in" class="form-control" id="date_in" placeholder="">#}
+                                            {{ form.date_in }}
+                                    </div>
+                                </div>
+
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <label>
+{#                            <input type="checkbox" name="agree" value="Ture">我同意#}
+                            {{ form.agree }} 我同意 <a href="javascript:" data-toggle="modal" data-target="#templatemo_modal"> 服务条件 </a>
+                             和 <a href="#"> 隐私策略 </a>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="err" style="color: red;">
+                    {% if not err==None %}
+                        {% for e in err.keys()%}
+                            {{ err[e][0] }}
+                        {% endfor %}
+                    {% endif %}
+                    {% if not err2==None %}
+                        {{ err2 }}
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <input type="submit" value="注册" class="btn btn-info"
+                               onclick="check_radio();check_radio1();check_radio2() ">
+                        {# <a href="/login/" class="pull-right">登录</a> #}
+                        <a href="{{ url_for('student.login') }}" class="pull-right">登录</a>
+                        {# <input type="button" onclick="check_radio()" value="测试radio">#}
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="templatemo_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+                        class="sr-only">关闭</span></button>
+                <h4 class="modal-title" id="myModalLabel">Terms of Service</h4>
+            </div>
+            <div class="modal-body">
+                <p>This form is provided by <a rel="nofollow" href="http://www.cssmoban.com/page/1">Free HTML5
+                    Templates</a> that can be used for your websites. Cras mattis consectetur purus sit amet fermentum.
+                    Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur
+                    ac, vestibulum at eros.</p>
+                <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue
+                    laoreet rutrum faucibus dolor auctor. Aenean lacinia bibendum nulla sed consectetur. Praesent
+                    commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper
+                    nulla non metus auctor fringilla. Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
+                    dapibus ac facilisis in, egestas eget quam.</p>
+                <p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna, vel
+                    scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor
+                    auctor.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="{{ url_for('static',filename="student/js/jquery-1.11.1.min.js") }}"></script>
+<script type="text/javascript" src="{{ url_for('static',filename="student/js/bootstrap.min.js") }}"></script>
+</body>
+<script>
+
+    {# 选择框校验start #}
+
+    function check_radio() {
+        var flag = false;
+        var sex_value = '';
+        var gender = document.getElementsByName('sex');
+        for (var i = 0; i < gender.length; i++) {
+            if (gender[i].checked) {
+                sex_value = gender[i].value;
+                flag = true;
+                break;
+            }
+        }
+
+        if (flag) {
+            console.log(sex_value)
+        } else {
+            alert('请选择性别！');
+        }
+    }
+
+
+    function check_radio2() {
+        var bFlag = false;
+        var agree_check = document.getElementsByName('agree');
+        if (agree_check.checked) {
+            bFlag = true
+        }
+        if (bFlag) {
+            alert('已同意服务条件和隐私策略！');
+            return true;
+        } else {
+            alert('请选择是否同意服务条件和隐私策略！');
+            return false;
+        }
+    }
+
+    <!-- 选择框校验end -->
+
+</script>
+</html>

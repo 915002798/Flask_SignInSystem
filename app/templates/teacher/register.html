@@ -1,0 +1,82 @@
+{% extends "common/index_for_login.html" %}
+
+{% block block_title %}register{% endblock %}
+
+{% block block_link %}
+    <link href="{{ url_for('static',filename="student/css/bootstrap.min.css") }}" rel="stylesheet" type="text/css">
+    <link href="{{ url_for('static',filename="student/css/bootstrap-theme.min.css") }}" rel="stylesheet" type="text/css">
+    <link href="{{ url_for('static',filename="student/css/templatemo_style.css") }}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+
+{% block block_body_h1 %}新用户注册{% endblock %}
+
+{% block block_body_inner_container %}
+
+        <form class="form-horizontal templatemo-create-account templatemo-container" role="form" action="/teacher/register/"
+              method="post">
+            <div class="form-inner">
+
+                <div class="form-group">
+                    <div class="col-md-6">
+                        <label for="username" class="control-label">用户名:</label>
+{#                        <input type="text" name="username" class="form-control" id="username" placeholder="">#}
+                        {{ form.username }}
+                    </div>
+                    <div class="col-md-6">
+                        <label for="name" class="control-label">姓名:</label>
+{#                        <input type="text" name="name" class="form-control" id="name" placeholder="">#}
+                        {{ form.name }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-6">
+                        <label for="password" class="control-label">密&nbsp;&nbsp;码:</label>
+{#                        <input type="password" name="pwd" class="form-control" id="password" placeholder="">#}
+                        {{ form.pwd }}
+                    </div>
+                    <div class="col-md-6">
+                        <label for="password_confirm" class="control-label">确认密码:</label>
+{#                        <input type="password" name="repwd" class="form-control" id="password_confirm" placeholder="">#}
+                        {{ form.repwd }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-6">
+                        <label for="email" class="control-label">Email:</label>
+{#                        <input type="email" name="email" class="form-control" id="email" placeholder="">#}
+                        {{ form.email }}
+                    </div>
+                    <div class="col-md-6">
+                        <label for="phone" class="control-label">手机号码:</label>
+{#                        <input type="text" name="phone" class="form-control" id="phone" placeholder="">#}
+                        {{ form.phone }}
+                    </div>
+                </div>
+                <div class="err" style="color: red;">
+                    {% if not err==None %}
+                        {% for e in err.keys()%}
+                            {{ err[e][0] }}
+                        {% endfor %}
+                    {% endif %}
+                    {% if not err2==None %}
+                        {{ err2 }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <input type="submit" value="注册" class="btn btn-info">
+                        {# <a href="/login/" class="pull-right">登录</a> #}
+                        <a href="{{ url_for('teacher.login') }}" class="pull-right">登录</a>
+                    </div>
+                </div>
+            </div>
+            {{ form.csrf_token }}
+{#            {{ form.submit | safe }}#}
+
+        </form>
+
+    <script type="text/javascript" src="{{ url_for('static',filename="student/js/jquery-1.11.1.min.js") }}"></script>
+    <script type="text/javascript" src="{{ url_for('static',filename="student/js/bootstrap.min.js") }}"></script>
+
+{% endblock %}

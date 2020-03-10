@@ -1,0 +1,147 @@
+{% extends "common/index_for_inner.html" %}
+
+{% block block_title_content %}学生签到页{% endblock %}
+
+{% block block_content %}
+    <div class="admin-content">
+
+        <div class="am-cf am-padding">
+            <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">学生签到记录</strong> /
+                <small>Table</small>
+            </div>
+        </div>
+
+        <div class="content-row">
+            <form>
+{#                <div class="form-group col-md-3">#}
+                <div class="am-form-group am-margin-left am-fl">
+                    <input id="cname" type="text" class="form-control" placeholder="班级">
+                </div>
+{#                <div class="form-group col-md-3">#}
+                <div class="am-form-group am-margin-left am-fl">
+                    <input id="sname" type="text" class="form-control" placeholder="姓名">
+                </div>
+{#                <div class="form-group col-md-3">#}
+                <div class="am-form-group am-margin-left am-fl">
+                    <input id="create_time" type="date" class="form-control" placeholder="日期">
+                </div>
+                <div class="am-form-group am-margin-left am-fl">
+                    <input type="button" class="btn btn-primary" value="查 询" onclick="do_search()">
+                    <input id="reset" type="button" class="btn btn-info" value="重 置">
+                </div>
+            </form>
+        </div>
+
+        <div class="am-g">
+            <div class="am-u-sm-12">
+                <form class="am-form">
+                    <table id="info" class="am-table am-table-striped am-table-hover table-main">
+                        <thead>
+                        <tr>
+                            <th class="table-id">编号</th>
+                            <th class="table-id">学号</th>
+                            <th class="table-name">姓名</th>
+                            <th class="table-cls">班级</th>
+                            <th class="table-date">日期</th>
+                            <th class="table-unit">章节</th>
+                            <th class="table-v_num">视频号</th>
+                            <th class="table-code_num">代码（行）</th>
+                            <th class="table-set">操作</th>
+                        </tr>
+                        </thead>
+                        <tbody id="form-tbody">
+                        {#                            {% if sign %}#}
+                        {#                            {% for i in sign %}#}
+                        {#                                <tr>#}
+                        {#                                    <td>{{ loop.index }}</td>#}
+                        {#                                    <td>{{ i.sid }}</td>#}
+                        {#                                    <td>{{ user.name }}</td>#}
+                        {#                                    <td>{{ user.cls.name }}</td>#}
+                        {#                                    <td>{{ i.datetime }}</td>#}
+                        {#                                    <td>{{ i.unit }}</td>#}
+                        {#                                    <td>{{ i.v_num }}</td>#}
+                        {#                                    <td>{{ i.code_num }}</td>#}
+                        {#                                    <td>#}
+                        {#                                        <div class="am-btn-toolbar">#}
+                        {#                                            <div class="am-btn-group am-btn-group-xs">已签到</div>#}
+                        {#                                        </div>#}
+                        {#                                    </td>#}
+                        {#                                </tr>#}
+                        {#                            {% endfor %}#}
+                        {#                        {% endif %}#}
+
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block block_new_script %}
+    <script src="{{ url_for('static',filename="student/assets/css/site.min.css") }}"></script>
+    <script>
+
+        $(function () {
+            init_data();
+            $('#reset').click(reset)
+        });
+
+        function init_data() {
+            var csrftoken = $("meta[name=csrf-token]").attr("content");
+            $.ajax({
+                url: '/teacher/search_sign/',
+                method: 'POST',
+                headers: {"X-CSRFToken": csrftoken},
+                success: function (e) {
+                    var str = '';
+                    for (var i = 0; i < e['data'].length; i++) {
+
+                        var qd = e['data'][i];
+                        str += '<tr><td>' + i + '</td><td>' + qd['sid'] + '</td><td>' + qd['sname'] + '</td><td>' + qd['cname'] + '</td><td>' + qd['datetime'] + '</td><td>' + qd['unit'] + '</td><td>' + qd['v_num'] + '</td><td>' + qd['code_num'] + '</td><td>' + '已签到' + '</td></tr>'
+
+                    }
+
+                    $("#info").append(str)
+                }
+            })
+        }
+
+        function do_search() {
+            var csrftoken = $("meta[name=csrf-token]").attr("content");
+
+            var cname = $('#cname').val();
+            var sname = $('#sname').val();
+            var create_time = $('#create_time').val();
+            var th = '<tr>' + $('#info').children()[0].children[0].innerHTML + '</tr>';
+            $.ajax({
+                url: '/teacher/search_sign/',
+                method: 'POST',
+                data: {'cname': cname, 'sname': sname, 'create_time': create_time},
+                headers: {"X-CSRFToken": csrftoken},
+                success: function (e) {
+                    var str = '';
+                    for (var i = 0; i < e['data'].length; i++) {
+                        var qd = e['data'][i];
+                        str += '<tr><td>' + i + '</td><td>' + qd['sid'] + '</td><td>' + qd['sname'] + '</td><td>' + qd['cname'] + '</td><td>' + qd['datetime'] + '</td><td>' + qd['unit'] + '</td><td>' + qd['v_num'] + '</td><td>' + qd['code_num'] + '</td><td>' + '已签到' + '</td></tr>'
+                    }
+
+                    $('#info tr').remove();
+                    console.log(th + str);
+                    $('#info').append(th + str);
+                    {#$('#info').append(str)#}
+
+
+                }
+            })
+        }
+
+        function reset() {
+            $('#cname').val('');
+            $('#sname').val('');
+            $('#create_time').val('')
+        }
+
+    </script>
+
+{% endblock %}
